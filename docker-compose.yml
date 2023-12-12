@@ -1,0 +1,27 @@
+# versi yang digunakan merupakan 3.7
+version: "3.7"
+
+
+services:
+# service yang terdapat container item-db mongodb dengan versi 3
+  item-db:
+    image: mongo:3
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - app-db:/data/db
+
+# service untuk container item-app menggunakan image yang sudah terdapat didockerhub
+  item-app:
+    image: joserafaels/item-app:v1
+    depends_on:
+      - item-db
+    restart: always
+    ports:
+      - 80:8080
+
+
+# bridge volume yang digunakan untuk item-db
+volumes:
+  app-db:
